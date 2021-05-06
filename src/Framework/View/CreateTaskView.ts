@@ -1,7 +1,9 @@
 import View from "./View";
-import {ACTION_TYPE} from "../../index";
+import {ACTION_TYPE} from "../DependencyInjection/ViewContainer";
 
-export default class CreateTaskView implements View {
+const createAction: ACTION_TYPE = 'createTask';
+
+export default class CreateTaskView implements View{
     private view: HTMLElement;
 
     constructor(view: HTMLElement) {
@@ -9,8 +11,6 @@ export default class CreateTaskView implements View {
     }
 
     render(): void {
-        const createAction: ACTION_TYPE = 'createTask';
-
         this.view.innerHTML = `
         <input type="text" name="id" placeholder="Enter an id..."/>
         <input type="text" name="name" placeholder="Enter a name..."/>
@@ -19,5 +19,9 @@ export default class CreateTaskView implements View {
             '&id=' + document.getElementsByName('id')[0].value
         ">Create</button>
         `;
+    }
+
+    getName(): string {
+        return CreateTaskView.name;
     }
 }

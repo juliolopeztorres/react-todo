@@ -34,6 +34,6 @@ test('Task repository can create', (done) => {
     };
 
     const repository = new TaskRepository();
-    repository.create('9999', 'new');
+    repository.create(new Task('9999', 'new'));
     repository.get(callback);
 });

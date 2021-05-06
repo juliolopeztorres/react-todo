@@ -1,7 +1,12 @@
 import GetTasksUseCaseRepositoryInterface, {GetTasksUseCaseRepositoryCallbackInterface} from "../../Domain/GetTasksUseCase/GetTasksUseCaseRepositoryInterface";
 import Task from "../../Domain/Model/Task";
+import Service from "../Service";
+import CreateTaskUseCaseRepositoryInterface from "../../Domain/CreateTaskUseCase/CreateTaskUseCaseRepositoryInterface";
 
-export default class TaskRepository implements GetTasksUseCaseRepositoryInterface {
+export default class TaskRepository implements Service,
+    GetTasksUseCaseRepositoryInterface,
+    CreateTaskUseCaseRepositoryInterface {
+    // TODO: Store task in local storage
     private tasks: Array<Task>;
 
     constructor() {
@@ -18,7 +23,11 @@ export default class TaskRepository implements GetTasksUseCaseRepositoryInterfac
         }, 500);
     }
 
-    create(id: string, name: string): void {
-        this.tasks.push(new Task(id, name));
+    create(task: Task): void {
+        this.tasks.push(task);
+    }
+
+    getName(): string {
+        return TaskRepository.name;
     }
 }
