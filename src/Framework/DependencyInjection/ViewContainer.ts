@@ -3,6 +3,7 @@ import ServiceContainer from "./ServiceContainer";
 import View from "../View/View";
 import TasksView from "../View/TasksView";
 import Task from "../../Domain/Model/Task";
+import DefaultView from "../View/DefaultView";
 
 export type ACTION_TYPE = 'onYopButtonClicked' | 'onCreateTaskClicked' | 'createTask' | '';
 
@@ -19,7 +20,8 @@ export default class ViewContainer {
 
         this.views = [
             new TasksView(htmlContainer, this.serviceContainer),
-            new CreateTaskView(htmlContainer)
+            new CreateTaskView(htmlContainer),
+            new DefaultView(htmlContainer),
         ];
     }
 
@@ -38,16 +40,8 @@ export default class ViewContainer {
         const request = new URLSearchParams(search);
 
         if (action.length === 0) {
-            // TODO: Extract to default view
-            const defaultAction: ACTION_TYPE = 'onYopButtonClicked';
+            this.getView(DefaultView.name).render();
 
-            this.draw(`
-<h1>Welcome page :_)</h1>
-<div>
-    <p>Click on the button to get some tasks</p>
-    <button onclick="window.location.href += '?${defaultAction}'">Yop</button>
-</div>
-`);
             return;
         }
 
@@ -81,7 +75,7 @@ export default class ViewContainer {
         const view = this.views.filter((view: View) => view.getName() === name)
 
         if (view.length !== 1) {
-            throw new Error(`Unexpected numbers of services found for name ${name}: ${view.length}`)
+            throw new Error(`Unexpected numbers of views found for name ${name}: ${view.length}`)
         }
 
         return view[0];
