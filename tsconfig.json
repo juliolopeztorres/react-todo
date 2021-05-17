@@ -10,7 +10,8 @@
     "outDir": "dist",
     "sourceMap": true,
     "alwaysStrict": true,
-    "noImplicitAny": true
+    "noImplicitAny": true,
+    "jsx": "react"
   },
   "include": [
     "src/**/*"
