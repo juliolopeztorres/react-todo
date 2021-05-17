@@ -1,7 +1,9 @@
 const path = require('path');
+const webpack = require("webpack");
 
 module.exports = {
-    entry: './src/index.ts',
+    // entry: './src/index.tsx',
+    entry: ['react-hot-loader/patch', './src'],
     mode: 'development',
     module: {
         rules: [
@@ -18,5 +20,13 @@ module.exports = {
     output: {
         filename: 'app.js',
         path: path.resolve(__dirname, 'dist'),
+        publicPath: "/dist/",
     },
+    devServer: {
+        contentBase: path.join(__dirname, "./"),
+        port: 3000,
+        publicPath: "http://localhost:3000/dist/",
+        hotOnly: true
+    },
+    plugins: [new webpack.HotModuleReplacementPlugin()]
 };
