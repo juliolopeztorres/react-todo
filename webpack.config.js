@@ -3,7 +3,7 @@ const webpack = require("webpack");
 
 module.exports = {
     // entry: './src/index.tsx',
-    entry: ['react-hot-loader/patch', './src'],
+    entry: ['react-hot-loader/patch', './src/Framework'],
     mode: 'development',
     module: {
         rules: [

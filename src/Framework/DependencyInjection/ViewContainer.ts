@@ -21,7 +21,7 @@ export default class ViewContainer {
         this.views = [
             new TasksView(htmlContainer, this.serviceContainer),
             new CreateTaskView(htmlContainer),
-            new DefaultView(htmlContainer),
+            // new DefaultView(htmlContainer),
         ];
     }
 
