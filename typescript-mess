@@ -57,3 +57,5 @@ module.exports = {
     presets: [['@babel/preset-env']],
 };
 
+- Migrar de webpack a rollup
+https://shipshape.io/blog/converting-a-webpack-build-to-rollup/
