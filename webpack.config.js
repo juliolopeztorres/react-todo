@@ -27,6 +27,7 @@ module.exports = {
         contentBase: path.join(__dirname, "./"),
         port: 3000,
         publicPath: "http://localhost:3000/dist/",
+        historyApiFallback: true,
         hotOnly: true
     },
     plugins: [new webpack.HotModuleReplacementPlugin(), new Dotenv()],
