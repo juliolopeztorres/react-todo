@@ -5,9 +5,11 @@ import CreateTaskUseCase from '../../Domain/CreateTaskUseCase/CreateTaskUseCase'
 import TaskMapper from '../Mapper/TaskMapper';
 import { Link, RouteComponentProps } from 'react-router-dom';
 import { getRoute } from '../Service/RouteService';
+import TaskRepository from '../../Data/Repository/TaskRepository';
+import ServiceContainerInterface from '../DependencyInjection/ServiceContainerInterface';
 
 type CreateTaskViewPropsInputType = {
-  createTaskUseCase: CreateTaskUseCase
+  serviceContainer: ServiceContainerInterface
 } & RouteComponentProps;
 
 type CreateTaskViewStateType = {
@@ -26,7 +28,7 @@ class CreateTaskView extends Component<CreateTaskViewPropsInputType, CreateTaskV
   constructor(props: CreateTaskViewPropsInputType) {
     super(props);
 
-    this.createTaskUseCase = props.createTaskUseCase;
+    this.createTaskUseCase = new CreateTaskUseCase(props.serviceContainer.getService(TaskRepository.name));
     this.createTask = this.createTask.bind(this);
   }
 

@@ -4,12 +4,11 @@ import DefaultView from '../View/DefaultView';
 import TasksView from '../View/TasksView';
 import ServiceContainer from '../DependencyInjection/ServiceContainer';
 import CreateTaskView from '../View/CreateTaskView';
-import GetTasksUseCase from '../../Domain/GetTasksUseCase/GetTasksUseCase';
-import CreateTaskUseCase from '../../Domain/CreateTaskUseCase/CreateTaskUseCase';
+import ServiceContainerInterface from '../DependencyInjection/ServiceContainerInterface';
 
 type routes = 'home' | 'listTasks' | 'createTask';
 
-const serviceContainer: ServiceContainer = new ServiceContainer();
+const serviceContainer: ServiceContainerInterface = new ServiceContainer();
 
 export default function RouteService() {
   return (
@@ -19,16 +18,11 @@ export default function RouteService() {
           <DefaultView/>
         </Route>
         <Route exact path={getRoute('listTasks')}>
-          <TasksView
-            getTasksUseCase={serviceContainer.getService(GetTasksUseCase.name)}
-          />
+          <TasksView serviceContainer={serviceContainer}/>
         </Route>
         <Route exact path={getRoute('createTask')}
                render={(props) =>
-                 <CreateTaskView
-                   createTaskUseCase={serviceContainer.getService(CreateTaskUseCase.name)}
-                   {...props}
-                 />
+                 <CreateTaskView serviceContainer={serviceContainer}{...props}/>
                }
         />
 

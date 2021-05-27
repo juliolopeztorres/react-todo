@@ -7,9 +7,11 @@ import { hot } from 'react-hot-loader/root';
 import TaskCollectionMapper from '../Mapper/TaskCollectionMapper';
 import { Link } from "react-router-dom";
 import { getRoute } from '../Service/RouteService';
+import TaskRepository from '../../Data/Repository/TaskRepository';
+import ServiceContainerInterface from '../DependencyInjection/ServiceContainerInterface';
 
 type TasksViewPropsInputType = {
-  getTasksUseCase: GetTasksUseCase
+  serviceContainer: ServiceContainerInterface
 }
 
 type TasksViewStateType = {
@@ -28,7 +30,7 @@ class TasksView extends Component<TasksViewPropsInputType, TasksViewStateType> i
   constructor(props: TasksViewPropsInputType) {
     super(props);
 
-    this.getTasksUseCase = props.getTasksUseCase;
+    this.getTasksUseCase = new GetTasksUseCase(props.serviceContainer.getService(TaskRepository.name), this);
   }
 
   componentDidMount(): void {
@@ -57,7 +59,7 @@ class TasksView extends Component<TasksViewPropsInputType, TasksViewStateType> i
         </ul>
       </div>
       <div style={{display: tasks.length === 0 ? 'block' : 'none'}}>Loading...</div>
-      <div style={{display: tasks.length > 0 ? 'block' : 'none'}}>
+      <div id={'div-tasks'} style={{display: tasks.length > 0 ? 'block' : 'none'}}>
         {TaskCollectionMapper.mapForDivList(tasks)}
       </div>
       <Link to={getRoute('home')}>
