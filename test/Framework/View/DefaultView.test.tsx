@@ -11,11 +11,11 @@ it('can render', () => {
 
   expectTagsInContainer(
     container,
-    ['button', 'h1', 'p'],
+    ['h1', 'p', 'button'],
     [
-      'Give me some tasks',
       'Welcome page :_)',
-      'Click on the button to get some tasks'
+      'Click on the button to get some tasks',
+      'Give me some tasks',
     ])
 
   expect(container.querySelector('a')!.getAttribute('href')).toEqual('/tasks')

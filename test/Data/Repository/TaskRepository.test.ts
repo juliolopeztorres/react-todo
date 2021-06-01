@@ -9,19 +9,24 @@ const MOCKED_TASKS = [
 ];
 
 test('Task repository should return 3 tasks', (done) => {
+    const taskLoadedErrorFunction = jest.fn();
     const callback: GetTasksUseCaseRepositoryCallbackInterface = {
         onTasksLoaded: (tasks: Array<Task>) => {
             expect(tasks).toHaveLength(MOCKED_TASKS.length);
             expect(tasks).toEqual(MOCKED_TASKS)
             done()
         },
-        onTasksLoadedError(message: string): void {}
+        onTasksLoadedError(message: string): void {
+            taskLoadedErrorFunction()
+        }
     };
 
     (new TaskRepository()).get(callback);
+    expect(taskLoadedErrorFunction).not.toBeCalled();
 });
 
 test('Task repository can create', (done) => {
+    const taskLoadedErrorFunction = jest.fn();
     const callback: GetTasksUseCaseRepositoryCallbackInterface = {
         onTasksLoaded: (tasks: Array<Task>) => {
             const expectedTasks = [...MOCKED_TASKS, {id: '9999', name: 'new'}]
@@ -30,10 +35,13 @@ test('Task repository can create', (done) => {
             expect(tasks).toEqual(expectedTasks)
             done()
         },
-        onTasksLoadedError(message: string): void {}
+        onTasksLoadedError(message: string): void {
+            taskLoadedErrorFunction();
+        }
     };
 
     const repository = new TaskRepository();
     repository.create(new Task('9999', 'new'));
     repository.get(callback);
+    expect(taskLoadedErrorFunction).not.toBeCalled();
 });
