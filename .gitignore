@@ -2,3 +2,5 @@ dist
 node_modules
 .idea
 .env
+test/Framework/Integration/cypress/screenshots
+test/Framework/Integration/cypress/videos
