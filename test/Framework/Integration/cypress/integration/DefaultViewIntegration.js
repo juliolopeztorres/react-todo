@@ -4,6 +4,8 @@ it('can display home screen', () => {
 })
 
 it('can display the right information', () => {
+  cy.visit('/', {timeout: 10000})
+
   cy.contains('Welcome page :_)')
   cy.contains('Click on the button to get some tasks')
   cy.contains('Give me some tasks')
