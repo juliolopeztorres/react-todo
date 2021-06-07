@@ -4,14 +4,18 @@ it('can display tasks screen', () => {
 })
 
 it('can display right information', () => {
-  navigateToTasks()
+  cy.fixture('tasks').then((tasks) => {
+    localStorage.setItem('tasks', JSON.stringify(tasks.preSavedTasks))
 
-  cy.contains('Listing tasks')
-  cy.contains('ID: 1234')
-  cy.contains('Name: Task 1')
+    navigateToTasks()
 
-  cy.get('button:contains("Back")').should('exist')
-  cy.get('button:contains("Create")').should('exist')
+    cy.contains('Listing tasks')
+    cy.contains('ID: 1234')
+    cy.contains('Name: Task 1')
+
+    cy.get('button:contains("Back")').should('exist')
+    cy.get('button:contains("Create")').should('exist')
+  })
 })
 
 it('can click on back button', () => {

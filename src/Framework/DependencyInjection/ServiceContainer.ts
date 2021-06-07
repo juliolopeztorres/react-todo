@@ -7,7 +7,7 @@ export default class ServiceContainer implements ServiceContainerInterface{
 
   constructor() {
     this.services = [
-      new TaskRepository(),
+      new TaskRepository(localStorage),
     ];
   }
 

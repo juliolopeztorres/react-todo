@@ -38,7 +38,17 @@ class TasksView extends Component<TasksViewPropsInputType, TasksViewStateType> i
   }
 
   onTasksLoaded(tasks: Array<Task>): void {
-    this.setState({tasks: tasks});
+    this.setState((prevState) => {
+      let newErrors = prevState.errors;
+      if (tasks.length === 0) {
+        newErrors.push('No tasks were found!');
+      }
+
+      return {
+        tasks: tasks,
+        errors: newErrors
+      }
+    });
   }
 
   onTasksLoadedError(message: string): void {
@@ -58,7 +68,7 @@ class TasksView extends Component<TasksViewPropsInputType, TasksViewStateType> i
           {errors.map((error) => <li key={error}>{error}</li>)}
         </ul>
       </div>
-      <div style={{display: tasks.length === 0 ? 'block' : 'none'}}>Loading...</div>
+      <div style={{display: tasks.length === 0 && errors.length === 0 ? 'block' : 'none'}}>Loading...</div>
       <div id={'div-tasks'} style={{display: tasks.length > 0 ? 'block' : 'none'}}>
         {TaskCollectionMapper.mapForDivList(tasks)}
       </div>

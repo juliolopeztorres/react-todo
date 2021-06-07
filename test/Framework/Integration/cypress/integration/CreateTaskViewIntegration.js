@@ -29,7 +29,7 @@ it('can click on create button', () => {
 })
 
 it('can create several tasks', () => {
-  cy.fixture('tasks').then((tasks) => tasks.forEach((task) => {
+  cy.fixture('tasks').then((tasks) => tasks.stressfulTasks.forEach((task) => {
     testTask(task);
   }))
 })

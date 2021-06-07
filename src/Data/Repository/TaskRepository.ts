@@ -2,19 +2,19 @@ import GetTasksUseCaseRepositoryInterface, {GetTasksUseCaseRepositoryCallbackInt
 import Task from "../../Domain/Model/Task";
 import Service from "../Service";
 import CreateTaskUseCaseRepositoryInterface from "../../Domain/CreateTaskUseCase/CreateTaskUseCaseRepositoryInterface";
+import TaskCollectionMapper from '../Mapper/TaskCollectionMapper';
 
 export default class TaskRepository implements Service,
     GetTasksUseCaseRepositoryInterface,
     CreateTaskUseCaseRepositoryInterface {
-    // TODO: Store task in local storage
     private tasks: Array<Task>;
+    private store: Storage;
 
-    constructor() {
-        this.tasks = [
-            new Task('1234', 'Task 1'),
-            new Task('5678', 'Task 2'),
-            new Task('9101', 'Task 3'),
-        ];
+    constructor(store: Storage) {
+        this.store = store;
+        this.tasks = TaskCollectionMapper.map(
+          JSON.parse(this.store.getItem('tasks') ?? `[]`)
+        );
     }
 
     get(callback: GetTasksUseCaseRepositoryCallbackInterface): void {
@@ -25,6 +25,7 @@ export default class TaskRepository implements Service,
 
     create(task: Task): void {
         this.tasks.push(task);
+        this.store.setItem('tasks', JSON.stringify(this.tasks));
     }
 
     getName(): string {
