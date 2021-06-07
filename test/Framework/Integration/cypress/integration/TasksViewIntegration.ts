@@ -4,7 +4,7 @@ it('can display tasks screen', () => {
 })
 
 it('can display right information', () => {
-  cy.fixture('tasks').then((tasks) => {
+  cy.fixture('tasks').then((tasks: {preSavedTasks: []}) => {
     localStorage.setItem('tasks', JSON.stringify(tasks.preSavedTasks))
 
     navigateToTasks()

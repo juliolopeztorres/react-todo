@@ -29,12 +29,13 @@ it('can click on create button', () => {
 })
 
 it('can create several tasks', () => {
-  cy.fixture('tasks').then((tasks) => tasks.stressfulTasks.forEach((task) => {
+  cy.fixture('tasks').then((tasks: {stressfulTasks: {id: string, name: string}[]}) =>
+    tasks.stressfulTasks.forEach((task) => {
     testTask(task);
   }))
 })
 
-function testTask(task) {
+function testTask(task: {id: string, name: string}) {
   navigateToTaskCreate()
 
   cy.get('[name="id"]').type(task.id)
