@@ -5,10 +5,24 @@ import { render } from '@testing-library/react';
 
 test('Can map several tasks', () => {
     const expected = [
-      `<p><b>ID:</b> id1</p>`,
-      `<p><b>Name:</b> name1</p>`,
-      `<p><b>ID:</b> id2</p>`,
-      `<p><b>Name:</b> name2</p>`,
+      `<div style="margin-bottom: 10px;">`,
+        `<div>`,
+          `<p><b>ID:</b> id1</p>`,
+          `<p><b>Name:</b> name1</p>`,
+        `</div>`,
+        `<div style="display: inline-flex;">`,
+          `<button type="button">Remove</button>`,
+        `</div>`,
+      `</div>`,
+      `<div style="margin-bottom: 10px;">`,
+        `<div>`,
+          `<p><b>ID:</b> id2</p>`,
+          `<p><b>Name:</b> name2</p>`,
+        `</div>`,
+        `<div style="display: inline-flex;">`,
+          `<button type="button">Remove</button>`,
+        `</div>`,
+      `</div>`,
     ];
 
     const {container} = render(<>{TaskCollectionMapper.mapForDivList([

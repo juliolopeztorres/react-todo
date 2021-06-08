@@ -1,7 +1,7 @@
 import Task from "../Model/Task";
 
 export default interface GetTasksUseCaseViewInterface {
-    onTasksLoaded(tasks: Array<Task>): void;
+    onTasksLoaded(tasks: Task[]): void;
 
     onTasksLoadedError(message: string): void;
 }

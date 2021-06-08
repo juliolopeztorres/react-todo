@@ -15,7 +15,7 @@ export default class GetTasksUseCase implements GetTasksUseCaseRepositoryCallbac
         this.repository.get(this);
     }
 
-    onTasksLoaded(tasks: Array<Task>): void {
+    onTasksLoaded(tasks: Task[]): void {
         this.view.onTasksLoaded(tasks);
     }
 

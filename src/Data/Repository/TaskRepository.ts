@@ -3,11 +3,13 @@ import Task from "../../Domain/Model/Task";
 import Service from "../Service";
 import CreateTaskUseCaseRepositoryInterface from "../../Domain/CreateTaskUseCase/CreateTaskUseCaseRepositoryInterface";
 import TaskCollectionMapper from '../Mapper/TaskCollectionMapper';
+import RemoveTaskUseCaseRepositoryInterface from '../../Domain/RemoveTaskUseCase/RemoveTaskUseCaseRepositoryInterface';
 
 export default class TaskRepository implements Service,
     GetTasksUseCaseRepositoryInterface,
-    CreateTaskUseCaseRepositoryInterface {
-    private tasks: Array<Task>;
+    CreateTaskUseCaseRepositoryInterface,
+    RemoveTaskUseCaseRepositoryInterface {
+    private tasks: Task[];
     private store: Storage;
 
     constructor(store: Storage) {
@@ -18,14 +20,19 @@ export default class TaskRepository implements Service,
     }
 
     get(callback: GetTasksUseCaseRepositoryCallbackInterface): void {
-        setTimeout(() => {
+        // setTimeout(() => {
             callback.onTasksLoaded(this.tasks)
-        }, 500);
+        // }, 500);
     }
 
     create(task: Task): void {
         this.tasks.push(task);
         this.store.setItem('tasks', JSON.stringify(this.tasks));
+    }
+
+    remove(task: Task): void {
+      this.tasks.splice(this.tasks.indexOf(task), 1)
+      this.store.setItem('tasks', JSON.stringify(this.tasks));
     }
 
     getName(): string {

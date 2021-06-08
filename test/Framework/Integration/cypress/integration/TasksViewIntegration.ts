@@ -18,6 +18,21 @@ it('can display right information', () => {
   })
 })
 
+it('can click on remove button', () => {
+  cy.fixture('tasks').then((tasks: {preSavedTasks: []}) => {
+    localStorage.setItem('tasks', JSON.stringify(tasks.preSavedTasks))
+
+    navigateToTasks()
+
+    cy.get('button:contains("Remove"):first').should('exist').click().then(() => {
+       cy.get('p:contains("ID: 1234")').should('not.exist')
+       cy.get('p:contains("Task 1")').should('not.exist')
+
+      cy.get('div#div-tasks').children().should('have.length', 2)
+    })
+  })
+})
+
 it('can click on back button', () => {
   navigateToTasks()
 

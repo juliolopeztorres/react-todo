@@ -5,7 +5,7 @@ export default interface GetTasksUseCaseRepositoryInterface {
 }
 
 export interface GetTasksUseCaseRepositoryCallbackInterface {
-    onTasksLoaded(tasks: Array<Task>): void;
+    onTasksLoaded(tasks: Task[]): void;
 
     onTasksLoadedError(message: string): void;
 }

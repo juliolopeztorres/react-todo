@@ -9,6 +9,7 @@ import { Link } from "react-router-dom";
 import { getRoute } from '../Service/RouteService';
 import TaskRepository from '../../Data/Repository/TaskRepository';
 import ServiceContainerInterface from '../DependencyInjection/ServiceContainerInterface';
+import RemoveTaskUseCase from '../../Domain/RemoveTaskUseCase/RemoveTaskUseCase';
 
 type TasksViewPropsInputType = {
   serviceContainer: ServiceContainerInterface
@@ -21,6 +22,7 @@ type TasksViewStateType = {
 
 class TasksView extends Component<TasksViewPropsInputType, TasksViewStateType> implements GetTasksUseCaseViewInterface {
   private getTasksUseCase: GetTasksUseCase;
+  private removeTaskUseCase: RemoveTaskUseCase;
 
   state: TasksViewStateType = {
     tasks: [],
@@ -31,13 +33,15 @@ class TasksView extends Component<TasksViewPropsInputType, TasksViewStateType> i
     super(props);
 
     this.getTasksUseCase = new GetTasksUseCase(props.serviceContainer.getService(TaskRepository.name), this);
+    this.removeTaskUseCase = new RemoveTaskUseCase(props.serviceContainer.getService(TaskRepository.name), this);
+    this.onRemoveTaskCallback = this.onRemoveTaskCallback.bind(this);
   }
 
   componentDidMount(): void {
     this.getTasksUseCase.get();
   }
 
-  onTasksLoaded(tasks: Array<Task>): void {
+  onTasksLoaded(tasks: Task[]): void {
     this.setState((prevState) => {
       let newErrors = prevState.errors;
       if (tasks.length === 0) {
@@ -57,6 +61,13 @@ class TasksView extends Component<TasksViewPropsInputType, TasksViewStateType> i
     })
   }
 
+  onRemoveTaskCallback(task: Task): void {
+    this.removeTaskUseCase.removeTask(task);
+    this.setState({tasks: []}, () => {
+      this.getTasksUseCase.get()
+    });
+  }
+
   render(): ReactNode {
     const {errors, tasks} = this.state
 
@@ -70,13 +81,13 @@ class TasksView extends Component<TasksViewPropsInputType, TasksViewStateType> i
       </div>
       <div style={{display: tasks.length === 0 && errors.length === 0 ? 'block' : 'none'}}>Loading...</div>
       <div id={'div-tasks'} style={{display: tasks.length > 0 ? 'block' : 'none'}}>
-        {TaskCollectionMapper.mapForDivList(tasks)}
+        {TaskCollectionMapper.mapForDivList(tasks, this.onRemoveTaskCallback)}
       </div>
       <Link to={getRoute('home')}>
-        <button>Back</button>
+        <button className={'link'}>Back</button>
       </Link>
       <Link to={getRoute('createTask')}>
-        <button>Create</button>
+        <button className={'link'}>Create</button>
       </Link>
 
     </React.Fragment>;

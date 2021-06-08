@@ -32,13 +32,19 @@ it('can render', () => {
 
   jest.advanceTimersByTime(1000)
 
-  const pTasks = container.querySelector('div#div-tasks')!.children;
+  const divTasksContainer = container.querySelector('div#div-tasks > div')!.children;
+  expect(divTasksContainer).toHaveLength(2)
+
+  const pTasks = divTasksContainer.item(0)!.children;
   expect(pTasks).toHaveLength(2)
 
   expect(pTasks[0].innerHTML).toEqual(`<b>ID:</b> 1`)
   expect(pTasks[1].innerHTML).toEqual(`<b>Name:</b> My name`)
 
-  const buttons = container.querySelectorAll('button');
+  const button = divTasksContainer.item(1)!.children[0];
+  expect(button.innerHTML).toEqual(`Remove`)
+
+  const buttons = container.querySelectorAll('button.link');
   const expectedButtonTextAndAnchorHRef = [
       {buttonText: 'Back', anchorHref: '/'},
       {buttonText: 'Create', anchorHref: '/tasks/create'},
