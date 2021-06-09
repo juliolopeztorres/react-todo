@@ -68,3 +68,5 @@ test('Task repository can create', (done) => {
     repository.get(callback);
     expect(taskLoadedErrorFunction).not.toBeCalled();
 });
+
+test.todo('Task repository can remove')

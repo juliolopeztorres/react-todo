@@ -6,18 +6,26 @@ import ServiceContainerInterface from '../../../src/Framework/DependencyInjectio
 import GetTasksUseCaseRepositoryInterface, { GetTasksUseCaseRepositoryCallbackInterface } from '../../../src/Domain/GetTasksUseCase/GetTasksUseCaseRepositoryInterface';
 import Task from '../../../src/Domain/Model/Task';
 import { expectTextAndLinkDetailsInButtons } from '../../helpers';
+import RemoveTaskUseCaseRepositoryInterface
+  from '../../../src/Domain/RemoveTaskUseCase/RemoveTaskUseCaseRepositoryInterface';
 
 it('can render', () => {
   jest.useFakeTimers()
 
+  const removeFunction = jest.fn();
+
   const mockServiceContainer: ServiceContainerInterface = new class implements ServiceContainerInterface {
     getService(name: string): any {
-      return new class implements GetTasksUseCaseRepositoryInterface {
+      return new class implements GetTasksUseCaseRepositoryInterface, RemoveTaskUseCaseRepositoryInterface {
         get(callback: GetTasksUseCaseRepositoryCallbackInterface): void {
           setTimeout(
             () => callback.onTasksLoaded([new Task('1', 'My name')]),
             500
           );
+        }
+
+        remove(task: Task): void {
+          removeFunction();
         }
       };
     }
@@ -42,8 +50,10 @@ it('can render', () => {
   expect(pTasks[0].innerHTML).toEqual(`<b>ID:</b> 1`)
   expect(pTasks[1].innerHTML).toEqual(`<b>Name:</b> My name`)
 
-  const button = divTasksContainer.item(1)!.children[0];
+  const button = divTasksContainer.item(1)!.children[0] as HTMLElement;
   expect(button.innerHTML).toEqual(`Remove`)
+  button.click()
+  expect(removeFunction).toBeCalled()
 
   expectTextAndLinkDetailsInButtons(
     container.querySelectorAll('button.link'),

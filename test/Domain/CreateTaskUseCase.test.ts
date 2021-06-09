@@ -1,7 +1,7 @@
-import CreateTaskUseCase from "../../../src/Domain/CreateTaskUseCase/CreateTaskUseCase";
+import CreateTaskUseCase from "../../src/Domain/CreateTaskUseCase/CreateTaskUseCase";
 import CreateTaskUseCaseRepositoryInterface
-    from "../../../src/Domain/CreateTaskUseCase/CreateTaskUseCaseRepositoryInterface";
-import Task from "../../../src/Domain/Model/Task";
+    from "../../src/Domain/CreateTaskUseCase/CreateTaskUseCaseRepositoryInterface";
+import Task from "../../src/Domain/Model/Task";
 
 test('Can create a task', () => {
     const repository: CreateTaskUseCaseRepositoryInterface = {

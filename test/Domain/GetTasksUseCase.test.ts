@@ -1,7 +1,7 @@
-import GetTasksUseCase from "../../../src/Domain/GetTasksUseCase/GetTasksUseCase";
-import GetTasksUseCaseViewInterface from "../../../src/Domain/GetTasksUseCase/GetTasksUseCaseViewInterface";
-import Task from "../../../src/Domain/Model/Task";
-import GetTasksUseCaseRepositoryInterface, {GetTasksUseCaseRepositoryCallbackInterface} from "../../../src/Domain/GetTasksUseCase/GetTasksUseCaseRepositoryInterface";
+import GetTasksUseCase from "../../src/Domain/GetTasksUseCase/GetTasksUseCase";
+import GetTasksUseCaseViewInterface from "../../src/Domain/GetTasksUseCase/GetTasksUseCaseViewInterface";
+import Task from "../../src/Domain/Model/Task";
+import GetTasksUseCaseRepositoryInterface, {GetTasksUseCaseRepositoryCallbackInterface} from "../../src/Domain/GetTasksUseCase/GetTasksUseCaseRepositoryInterface";
 
 test('Can get tasks', () => {
     const viewTaskLoadedFunction = jest.fn();
