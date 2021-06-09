@@ -37,16 +37,16 @@ class CreateTaskView extends Component<CreateTaskViewPropsInputType, CreateTaskV
 
     return <React.Fragment>
       <h1>Create new task</h1>
-      <input type="text" name="id" placeholder="Enter an id..."
+      <input data-testid={'inputId'} type="text" name="id" placeholder="Enter an id..."
              value={id}
              onChange={(value) => this.setState({id: value.target.value})}/>
-      <input type="text" name="name" placeholder="Enter a name..."
+      <input data-testid={'inputName'} type="text" name="name" placeholder="Enter a name..."
              value={name}
              onChange={(value) => this.setState({name: value.target.value})}/>
-      <button type="button" onClick={this.createTask}>Create</button>
+      <button data-testid={'buttonCreate'} type="button" onClick={this.createTask}>Create</button>
       <p>
         <Link to={getRoute('listTasks')}>
-          <button type="button">Back</button>
+          <button className={'link'} type="button">Back</button>
         </Link>
       </p>
     </React.Fragment>;

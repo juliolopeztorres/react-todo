@@ -5,6 +5,7 @@ import { BrowserRouter } from 'react-router-dom';
 import ServiceContainerInterface from '../../../src/Framework/DependencyInjection/ServiceContainerInterface';
 import GetTasksUseCaseRepositoryInterface, { GetTasksUseCaseRepositoryCallbackInterface } from '../../../src/Domain/GetTasksUseCase/GetTasksUseCaseRepositoryInterface';
 import Task from '../../../src/Domain/Model/Task';
+import { expectTextAndLinkDetailsInButtons } from '../../helpers';
 
 it('can render', () => {
   jest.useFakeTimers()
@@ -44,14 +45,10 @@ it('can render', () => {
   const button = divTasksContainer.item(1)!.children[0];
   expect(button.innerHTML).toEqual(`Remove`)
 
-  const buttons = container.querySelectorAll('button.link');
-  const expectedButtonTextAndAnchorHRef = [
+  expectTextAndLinkDetailsInButtons(
+    container.querySelectorAll('button.link'),
+    [
       {buttonText: 'Back', anchorHref: '/'},
       {buttonText: 'Create', anchorHref: '/tasks/create'},
-  ];
-
-  for (let i = 0; i < buttons.length; i++) {
-    expect(buttons.item(i).innerHTML).toEqual(expectedButtonTextAndAnchorHRef[i].buttonText)
-    expect(buttons.item(i).parentElement!.getAttribute('href')).toEqual(expectedButtonTextAndAnchorHRef[i].anchorHref)
-  }
+    ])
 })
