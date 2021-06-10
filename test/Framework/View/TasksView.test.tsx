@@ -5,7 +5,7 @@ import { BrowserRouter } from 'react-router-dom';
 import ServiceContainerInterface from '../../../src/Framework/DependencyInjection/ServiceContainerInterface';
 import GetTasksUseCaseRepositoryInterface, { GetTasksUseCaseRepositoryCallbackInterface } from '../../../src/Domain/GetTasksUseCase/GetTasksUseCaseRepositoryInterface';
 import Task from '../../../src/Domain/Model/Task';
-import { expectTextAndLinkDetailsInButtons } from '../../helpers';
+import expectTagsInContainer, { expectTextAndLinkDetailsInButtons } from '../../helpers';
 import RemoveTaskUseCaseRepositoryInterface
   from '../../../src/Domain/RemoveTaskUseCase/RemoveTaskUseCaseRepositoryInterface';
 
@@ -61,4 +61,38 @@ it('can render', () => {
       {buttonText: 'Back', anchorHref: '/'},
       {buttonText: 'Create', anchorHref: '/tasks/create'},
     ])
+})
+
+it('can show errors', () => {
+  const implementations = [
+    (callback: GetTasksUseCaseRepositoryCallbackInterface) => callback.onTasksLoadedError('Tasks could not be loaded'),
+    (callback: GetTasksUseCaseRepositoryCallbackInterface) => callback.onTasksLoaded([]),
+  ];
+
+  const textsToSeeInBody = [
+    'Tasks could not be loaded',
+    'No tasks were found!'
+  ];
+
+  for (let i in implementations) {
+    const mockServiceContainer: ServiceContainerInterface = new class implements ServiceContainerInterface {
+      getService(name: string): any {
+        return new class implements GetTasksUseCaseRepositoryInterface, RemoveTaskUseCaseRepositoryInterface {
+          get(callback: GetTasksUseCaseRepositoryCallbackInterface): void {
+            implementations[i](callback);
+          }
+
+          remove(task: Task): void {
+          }
+        };
+      }
+    }
+
+    const {container} = render(<BrowserRouter>
+        <TasksView serviceContainer={mockServiceContainer}/>
+      </BrowserRouter>
+    )
+
+    expectTagsInContainer(container, ['h3', 'li'], ['Errors:', textsToSeeInBody[i]])
+  }
 })

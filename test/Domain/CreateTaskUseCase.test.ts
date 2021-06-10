@@ -4,7 +4,7 @@ import CreateTaskUseCaseRepositoryInterface
 import Task from "../../src/Domain/Model/Task";
 
 test('Can create a task', () => {
-    const repository: CreateTaskUseCaseRepositoryInterface = {
+    const repository: CreateTaskUseCaseRepositoryInterface = new class implements CreateTaskUseCaseRepositoryInterface{
         create(task: Task) {
             expect(task).toEqual({id: '1234', name: 'myName'})
         }

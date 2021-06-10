@@ -13,11 +13,14 @@ const localStorageMock: Storage = new class implements Storage {
 
     readonly length: number = 3;
 
+    tasks = MOCKED_TASKS;
+
     clear(): void {
+        this.tasks = MOCKED_TASKS
     }
 
     getItem(key: string): string | null {
-        return JSON.stringify(MOCKED_TASKS);
+        return JSON.stringify(this.tasks);
     }
 
     key(index: number): string | null {
@@ -28,17 +31,20 @@ const localStorageMock: Storage = new class implements Storage {
     }
 
     setItem(key: string, value: string): void {
+        this.tasks = JSON.parse(value)
     }
 }
 
 test('Task repository should return 3 tasks', (done) => {
     const taskLoadedErrorFunction = jest.fn();
-    const callback: GetTasksUseCaseRepositoryCallbackInterface = {
-        onTasksLoaded: (tasks: Array<Task>) => {
+    const callback: GetTasksUseCaseRepositoryCallbackInterface = new class implements GetTasksUseCaseRepositoryCallbackInterface
+    {
+        onTasksLoaded(tasks: Task[]): void {
             expect(tasks).toHaveLength(MOCKED_TASKS.length);
             expect(tasks).toEqual(MOCKED_TASKS)
             done()
-        },
+        }
+
         onTasksLoadedError(): void {
             taskLoadedErrorFunction()
         }
@@ -50,14 +56,16 @@ test('Task repository should return 3 tasks', (done) => {
 
 test('Task repository can create', (done) => {
     const taskLoadedErrorFunction = jest.fn();
-    const callback: GetTasksUseCaseRepositoryCallbackInterface = {
-        onTasksLoaded: (tasks: Array<Task>) => {
+    const callback: GetTasksUseCaseRepositoryCallbackInterface = new class implements GetTasksUseCaseRepositoryCallbackInterface
+    {
+        onTasksLoaded(tasks: Task[]): void {
             const expectedTasks = [...MOCKED_TASKS, {id: '9999', name: 'new'}]
 
             expect(tasks).toHaveLength(expectedTasks.length);
             expect(tasks).toEqual(expectedTasks)
             done()
-        },
+        }
+
         onTasksLoadedError(): void {
             taskLoadedErrorFunction();
         }
@@ -69,4 +77,24 @@ test('Task repository can create', (done) => {
     expect(taskLoadedErrorFunction).not.toBeCalled();
 });
 
-test.todo('Task repository can remove')
+test('Task repository can remove', (done) => {
+    localStorageMock.clear();
+    const repository = new TaskRepository(localStorageMock);
+
+    repository.remove(new Task(MOCKED_TASKS[0].id, MOCKED_TASKS[0].name));
+
+    const onTaskLoadedErrorFunction = jest.fn();
+    repository.get(new class implements GetTasksUseCaseRepositoryCallbackInterface {
+        onTasksLoaded(tasks: Task[]): void {
+            expect(tasks).toHaveLength(2)
+            expect(tasks[0]).toEqual(MOCKED_TASKS[1])
+            done()
+        }
+
+        onTasksLoadedError(message: string): void {
+            onTaskLoadedErrorFunction()
+        }
+    })
+
+    expect(onTaskLoadedErrorFunction).not.toBeCalled()
+})

@@ -6,11 +6,11 @@ import GetTasksUseCaseRepositoryInterface, {GetTasksUseCaseRepositoryCallbackInt
 test('Can get tasks', () => {
     const viewTaskLoadedFunction = jest.fn();
     const viewTaskLoadedFunctionError = jest.fn();
-    const view: GetTasksUseCaseViewInterface = {
-        onTasksLoaded(tasks: Array<Task>) {
+    const view: GetTasksUseCaseViewInterface = new class implements GetTasksUseCaseViewInterface {
+        onTasksLoaded(tasks: Task[]) {
             viewTaskLoadedFunction();
             expect(tasks).toEqual([{id: '1234', name: 'myName'}]);
-        },
+        }
 
         onTasksLoadedError(message: string) {
             viewTaskLoadedFunctionError();
@@ -18,7 +18,7 @@ test('Can get tasks', () => {
     };
 
     const repositoryCallbackFunction = jest.fn();
-    const repository: GetTasksUseCaseRepositoryInterface = {
+    const repository: GetTasksUseCaseRepositoryInterface = new class implements GetTasksUseCaseRepositoryInterface {
         get(callback: GetTasksUseCaseRepositoryCallbackInterface) {
             repositoryCallbackFunction()
             callback.onTasksLoaded([new Task('1234', 'myName')]);
@@ -34,10 +34,10 @@ test('Can get tasks', () => {
 test('Can get tasks error', () => {
     const viewTaskLoadedFunction = jest.fn();
     const viewTaskLoadedFunctionError = jest.fn();
-    const view: GetTasksUseCaseViewInterface = {
-        onTasksLoaded(tasks: Array<Task>) {
+    const view: GetTasksUseCaseViewInterface = new class implements GetTasksUseCaseViewInterface {
+        onTasksLoaded(tasks: Task[]) {
             viewTaskLoadedFunction();
-        },
+        }
 
         onTasksLoadedError(message: string) {
             viewTaskLoadedFunctionError();
@@ -46,7 +46,7 @@ test('Can get tasks error', () => {
     };
 
     const repositoryCallbackFunction = jest.fn();
-    const repository: GetTasksUseCaseRepositoryInterface = {
+    const repository: GetTasksUseCaseRepositoryInterface = new class implements GetTasksUseCaseRepositoryInterface {
         get(callback: GetTasksUseCaseRepositoryCallbackInterface) {
             repositoryCallbackFunction()
             callback.onTasksLoadedError('Some meaningful error');

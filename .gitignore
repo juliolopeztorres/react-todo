@@ -4,3 +4,4 @@ node_modules
 .env
 test/Framework/Integration/cypress/screenshots
 test/Framework/Integration/cypress/videos
+coverage

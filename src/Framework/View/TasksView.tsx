@@ -33,7 +33,7 @@ class TasksView extends Component<TasksViewPropsInputType, TasksViewStateType> i
     super(props);
 
     this.getTasksUseCase = new GetTasksUseCase(props.serviceContainer.getService(TaskRepository.name), this);
-    this.removeTaskUseCase = new RemoveTaskUseCase(props.serviceContainer.getService(TaskRepository.name), this);
+    this.removeTaskUseCase = new RemoveTaskUseCase(props.serviceContainer.getService(TaskRepository.name));
     this.onRemoveTaskCallback = this.onRemoveTaskCallback.bind(this);
   }
 
