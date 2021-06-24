@@ -31,8 +31,15 @@ export default class TaskRepository implements Service,
     }
 
     remove(taskSearched: Task): void {
-      this.tasks.splice(this.tasks.indexOf(this.tasks.filter((task: Task) => task.getId() === taskSearched.getId())[0]), 1)
-      this.store.setItem('tasks', JSON.stringify(this.tasks));
+        this.tasks.splice(
+          this.tasks.indexOf(
+            this.tasks.filter(
+              (task: Task) => task.getId() === taskSearched.getId()
+            )[0]
+          ),
+          1
+        )
+        this.store.setItem('tasks', JSON.stringify(this.tasks));
     }
 
     getName(): string {
