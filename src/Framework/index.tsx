@@ -9,5 +9,5 @@ ReactDOM.render(
         <RouteService/>
     </HashRouter>
   </React.StrictMode>,
-    document.getElementById("app")
+    document.getElementById('app')
 );
