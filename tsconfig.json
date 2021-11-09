@@ -7,7 +7,7 @@
     "esModuleInterop": true,
     "skipLibCheck": true,
     "forceConsistentCasingInFileNames": true,
-    "outDir": "public/dist",
+    "outDir": "docs/dist",
     "sourceMap": true,
     "alwaysStrict": true,
     "noImplicitAny": true,
