@@ -20,11 +20,11 @@ module.exports = {
     },
     output: {
         filename: 'app.js',
-        path: path.resolve(__dirname, 'dist'),
-        publicPath: "/dist/",
+        path: path.resolve(__dirname, 'public/dist'),
+        publicPath: "/public/dist/",
     },
     devServer: {
-        contentBase: path.join(__dirname, "./"),
+        contentBase: path.join(__dirname, "./public/"),
         port: 3000,
         publicPath: "http://localhost:3000/dist/",
         historyApiFallback: true,

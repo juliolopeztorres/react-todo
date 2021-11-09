@@ -4,8 +4,10 @@ import { HashRouter } from "react-router-dom";
 import RouteService from "./Service/RouteService";
 
 ReactDOM.render(
+  <React.StrictMode>
     <HashRouter>
         <RouteService/>
-    </HashRouter>,
+    </HashRouter>
+  </React.StrictMode>,
     document.getElementById("app")
 );

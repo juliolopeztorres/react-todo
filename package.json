@@ -4,7 +4,6 @@
     "integration": "cd ./test/Framework/Integration && cypress run",
     "build": "tsc && webpack --mode=production",
     "build:dev": "tsc && webpack",
-    "watch": "webpack --watch",
     "serve": "webpack serve"
   },
   "license": "UNLICENSED",
