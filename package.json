@@ -2,8 +2,8 @@
   "scripts": {
     "test": "jest",
     "integration": "cd ./test/Framework/Integration && cypress run",
-    "build": "tsc && webpack --mode=production",
-    "build:dev": "tsc && webpack",
+    "build": "webpack --mode=production",
+    "build:dev": "webpack",
     "serve": "webpack serve"
   },
   "license": "UNLICENSED",
